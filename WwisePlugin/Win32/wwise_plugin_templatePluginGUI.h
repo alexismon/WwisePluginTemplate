@@ -27,12 +27,54 @@ the specific language governing permissions and limitations under the License.
 #pragma once
 
 #include "../wwise_plugin_templatePlugin.h"
+#include "../resource.h"
+#include <shellapi.h>
+#include <string>
 
 class wwise_plugin_templatePluginGUI final
-	: public AK::Wwise::Plugin::PluginMFCWindows<>
-	, public AK::Wwise::Plugin::GUIWindows
+	: public AK::Wwise::Plugin::GUIWindows,
+      public AK::Wwise::Plugin::Notifications::Monitor
 {
 public:
 	wwise_plugin_templatePluginGUI();
 
+    //=== Frontend Methods ===
+
+    /// Retrieve the handle holding resources for the module containing the plug-in instance
+    HINSTANCE GetResourceHandle() const override;
+
+    /// Retrieve the dialog ID and its table mapping control ID to properties
+    bool GetDialog(
+        AK::Wwise::Plugin::eDialog in_eDialog,				///< The dialog type
+        UINT & out_uiDialogID,			///< The returned resource ID of the dialog
+        AK::Wwise::Plugin::PopulateTableItem *& out_pTable	///< The returned table of property-control bindings (can be NULL)
+    ) const override;
+
+    /// Window message handler
+    bool WindowProc(
+        AK::Wwise::Plugin::eDialog in_eDialog,		///< The dialog type
+        HWND in_hWnd,			///< The window handle of the dialog
+        UINT in_message,		///< The incoming message. This is a standard Windows message ID (ex. WM_PAINT).
+        WPARAM in_wParam,		///< The WPARAM of the message (see MSDN)
+        LPARAM in_lParam,		///< The LPARAM of the message (see MSDN)
+        LRESULT & out_lResult 	///< The returned value if the message has been processed (it is only considered if the method also returns True)
+    ) override;
+
+    /// Function called when user clicked the help [?] button
+    bool Help(
+        HWND in_hWnd,					///< The handle of the dialog
+        AK::Wwise::Plugin::eDialog in_eDialog,				///< The dialog type
+        const char * in_szLanguageCode		///< The language code in ISO639-1
+    ) const override;
+
+    /// Function called when monitor data is posted for our plug-in type
+    void NotifyMonitorData(
+        AkTimeMs in_iTimeStamp,
+        const AK::Wwise::Plugin::MonitorData* in_pMonitorDataArray,
+        unsigned int in_uMonitorDataArraySize,
+        bool in_bIsRealtime
+    ) override;
+
+private:
+    HWND m_hwnd;
 };

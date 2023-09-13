@@ -30,6 +30,164 @@ wwise_plugin_templatePluginGUI::wwise_plugin_templatePluginGUI()
 {
 }
 
+// Acquire the module instance from the Microsoft linker
+extern "C" IMAGE_DOS_HEADER __ImageBase;
+
+HINSTANCE wwise_plugin_templatePluginGUI::GetResourceHandle() const
+{
+    return ((HINSTANCE)&__ImageBase);
+
+    // OR using MFC:
+    //AFX_MANAGE_STATE( AfxGetStaticModuleState() );
+    //return AfxGetStaticModuleState()->m_hCurrentResourceHandle;
+}
+
+// These macros generate a table named "WoaGainProperties" to pass to GetDialog
+// See https://www.audiokinetic.com/library/edge/?source=SDK&id=wwiseplugin_dialog_guide.html#wwiseplugin_dialog_guide_poptable
+//
+// The preprocessor turns the code below into:
+// AK::Wwise::PopulateTableItem WoaGainProperties = {
+//    {IDC_GAIN_SLIDER, L"Dummy"},
+//    {0, NULL}
+// };
+
+constexpr auto propertyKey = u8"Placeholder";
+ 
+AK_WWISE_PLUGIN_GUI_WINDOWS_BEGIN_POPULATE_TABLE(PropertyTable)
+    AK_WWISE_PLUGIN_GUI_WINDOWS_POP_ITEM(
+      IDC_FADER,    /* < ID of the Win32 control in resource.h and WoaGain.rc */
+      propertyKey   /* < Property Name in WoaGain.xml */
+      )       
+
+AK_WWISE_PLUGIN_GUI_WINDOWS_END_POPULATE_TABLE()
+
+// Return true = Custom GUI
+// Return false = Generated GUI
+bool wwise_plugin_templatePluginGUI::GetDialog(
+    AK::Wwise::Plugin::eDialog in_eDialog,				///< The dialog type
+    UINT & out_uiDialogID,			///< The returned resource ID of the dialog
+    AK::Wwise::Plugin::PopulateTableItem *& out_pTable	///< The returned table of property-control bindings (can be NULL)
+) const
+{
+    // Which dialog type is being requested?
+    switch (in_eDialog)
+    {
+        // Plug-in Settings: Available to all plug-ins
+        case AK::Wwise::Plugin::SettingsDialog:
+        {
+            out_uiDialogID = IDD_PLUGIN_PAGE;
+            out_pTable = PropertyTable;
+            return true;
+        }
+        // Contents Editor: Only available to source plug-ins
+        case AK::Wwise::Plugin::ContentsEditorDialog:
+        default:
+        {
+            return false;
+        }
+    }
+}
+
+// Window message handler
+// See https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)
+// Standard window function allowing the user to intercept whatever message is of interest when implementing UI behavior.
+bool wwise_plugin_templatePluginGUI::WindowProc(
+    AK::Wwise::Plugin::eDialog in_eDialog,
+    HWND in_hWnd,
+    UINT in_message,
+    WPARAM in_wParam,
+    LPARAM in_lParam,
+    LRESULT& out_lResult)
+{
+    // Effects only support the dialog type "SettingsDialog"
+    if (in_eDialog != AK::Wwise::Plugin::SettingsDialog)
+        return false;
+
+    bool messageWasHandled = true;
+
+    switch (in_message)
+    {
+        // Sent to the dialog box procedure immediately before a dialog box is displayed.
+        // Dialog box procedures typically use this message to initialize controls and carry out any other
+        // initialization tasks that affect the appearance of the dialog box.
+        case WM_INITDIALOG:
+        {
+            m_hwnd = in_hWnd;
+
+            // return TRUE to direct the system to set the keyboard focus to the control specified by wParam
+            // return FALSE to prevent the system from setting the default keyboard focus
+            out_lResult = FALSE;
+            break;
+        }
+        // Sent when a window is being destroyed.
+        // It is sent to the window procedure of the window being destroyed after the window is removed from the screen.
+        case WM_DESTROY:
+        {
+            m_hwnd = NULL;
+
+            // If an application processes this message, it should return zero.
+            out_lResult = 0;
+            break;
+        }
+        default:
+        {
+            messageWasHandled = false;
+            break;
+        }
+    }
+
+    return messageWasHandled;
+}
+
+// Function called when user clicked the help [?] button
+// See https://www.audiokinetic.com/library/edge/?source=SDK&id=plugin_dll.html#wwiseplugin_help
+bool wwise_plugin_templatePluginGUI::Help(
+    HWND in_hWnd,					///< The handle of the dialog
+    AK::Wwise::Plugin::eDialog in_eDialog,				///< The dialog type
+    const char *in_szLanguageCode		///< The language code in ISO639-1
+) const
+{
+    if (in_eDialog == AK::Wwise::Plugin::SettingsDialog && strlen(in_szLanguageCode) == 2)
+    {
+        wchar_t url[128] = { 0 };
+        wsprintf(url, L"https://www.audiokinetic.com/%s/library/edge/?source=SDK&id=plugin_dll.html", in_szLanguageCode);
+        // Let Windows open the URL through the default application
+        ::ShellExecute(0, 0, url, 0, 0 , SW_SHOW);
+        return true;
+    }
+    return false;
+}
+
+void wwise_plugin_templatePluginGUI::NotifyMonitorData(
+    AkTimeMs in_iTimeStamp,
+    const AK::Wwise::Plugin::MonitorData* in_pMonitorDataArray,
+    unsigned int in_uMonitorDataArraySize,
+    bool in_bIsRealtime)
+{
+    // Below are pedantic validation for demonstration purposes
+
+    if (m_hwnd != NULL &&          // The dialog exists
+        in_pMonitorDataArray != nullptr &&     // The data payload is not null
+        in_uMonitorDataArraySize >= 1       // Received data from at least 1 instance
+        // && in_bNeedsByteSwap == false // Only handle little-endian to little-endian
+    ) {
+        // TODO: This handles only a single instance!
+        //       We _must_ handle all instances (in_uDataSize = number of instances)
+
+        if (in_pMonitorDataArray->pData != nullptr &&               // The monitor data is not null
+            in_pMonitorDataArray->uDataSize == sizeof(AkReal32) * 2 // 
+        ) {
+            AkReal32* serializedData = (AkReal32*)in_pMonitorDataArray->pData;
+
+            HWND inputLvlLabel = ::GetDlgItem(m_hwnd, IDC_INPUT_LVL);
+            ::SetWindowTextW(inputLvlLabel, std::to_wstring(serializedData[0]).c_str());
+
+            HWND outputLvlLabel = ::GetDlgItem(m_hwnd, IDC_OUTPUT_LVL);
+            ::SetWindowTextW(outputLvlLabel, std::to_wstring(serializedData[1]).c_str());
+        }
+    }
+}
+
 ADD_AUDIOPLUGIN_CLASS_TO_CONTAINER(
     wwise_plugin_template,            // Name of the plug-in container for this shared library
     wwise_plugin_templatePluginGUI,   // Authoring plug-in class to add to the plug-in container

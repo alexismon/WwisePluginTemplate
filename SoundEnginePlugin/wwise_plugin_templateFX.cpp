@@ -81,9 +81,15 @@ AKRESULT wwise_plugin_templateFX::GetPluginInfo(AkPluginInfo& out_rPluginInfo)
     return AK_Success;
 }
 
+#define AK_LINTODB( __lin__ ) (log10f(__lin__) * 20.f)
+
 void wwise_plugin_templateFX::Execute(AkAudioBuffer* io_pBuffer)
 {
     const AkUInt32 uNumChannels = io_pBuffer->NumChannels();
+
+    // Monitor Data
+    AkReal32 rmsBefore = 0.f;
+    AkReal32 rmsAfter = 0.f;
 
     AkUInt16 uFramesProcessed;
     for (AkUInt32 i = 0; i < uNumChannels; ++i)
@@ -94,9 +100,38 @@ void wwise_plugin_templateFX::Execute(AkAudioBuffer* io_pBuffer)
         while (uFramesProcessed < io_pBuffer->uValidFrames)
         {
             // Execute DSP in-place here
+        #ifndef AK_OPTIMIZED
+            if (m_pContext->CanPostMonitorData())
+                rmsBefore += powf(pBuf[uFramesProcessed], 2);
+        #endif
+
+            pBuf[uFramesProcessed] = pBuf [uFramesProcessed] * AK_DBTOLIN(m_pParams->RTPC.fPlaceholder);
+
+        #ifndef AK_OPTIMIZED
+            if (m_pContext->CanPostMonitorData())
+                rmsAfter += powf(pBuf[uFramesProcessed], 2);
+        #endif
+        
             ++uFramesProcessed;
         }
     }
+
+#ifndef AK_OPTIMIZED
+    if (m_pContext->CanPostMonitorData())
+    {
+        // RMS = Root of the Mean of the Squares
+        //       sqrt( (1/n) * sum_0-n( (x_1)^2, ..., (x_n)^2 ) )
+
+        rmsBefore /= (uNumChannels * io_pBuffer->uValidFrames);
+        rmsBefore = sqrtf(rmsBefore);
+
+        rmsAfter /= (uNumChannels * io_pBuffer->uValidFrames);
+        rmsAfter = sqrtf(rmsAfter);
+
+        AkReal32 monitorData[2] = { AK_LINTODB(rmsBefore), AK_LINTODB(rmsAfter) };
+        m_pContext->PostMonitorData((void*)monitorData, sizeof(monitorData));
+    }
+#endif
 }
 
 AKRESULT wwise_plugin_templateFX::TimeSkip(AkUInt32 in_uFrames)

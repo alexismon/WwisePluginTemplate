@@ -7,7 +7,7 @@
 			"label": "wp.py premake",
 			"type": "shell",
 			"windows": {
-				"command": "py"
+				"command": "python"
 			},
 			"osx": {
 				"command": "python3"
@@ -25,7 +25,7 @@
 			"label": "wp.py build",
 			"type": "shell",
 			"windows": {
-				"command": "py",
+				"command": "python",
 				"args": [
 					"${env:WWISEROOT}/Scripts/Build/Plugins/wp.py",
 					"build",
@@ -73,7 +73,7 @@
 			"label": "wp.py build Documentation",
 			"type": "shell",
 			"windows": {
-				"command": "py"
+				"command": "python"
 			},
 			"osx": {
 				"command": "python3"
@@ -92,7 +92,7 @@
 			"label": "wp.py package",
 			"type": "shell",
 			"windows": {
-				"command": "py"
+				"command": "python"
 			},
 			"osx": {
 				"command": "python3"
@@ -112,7 +112,7 @@
 			"label": "wp.py generate-bundle",
 			"type": "shell",
 			"windows": {
-				"command": "py"
+				"command": "python"
 			},
 			"osx": {
 				"command": "python3"
