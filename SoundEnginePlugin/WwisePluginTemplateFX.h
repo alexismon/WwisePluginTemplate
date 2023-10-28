@@ -24,19 +24,19 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#ifndef wwise_plugin_templateFX_H
-#define wwise_plugin_templateFX_H
+#ifndef WwisePluginTemplateFX_H
+#define WwisePluginTemplateFX_H
 
-#include "wwise_plugin_templateFXParams.h"
+#include "WwisePluginTemplateFXParams.h"
 
 /// See https://www.audiokinetic.com/library/edge/?source=SDK&id=soundengine__plugins__effects.html
 /// for the documentation about effect plug-ins
-class wwise_plugin_templateFX
+class WwisePluginTemplateFX
     : public AK::IAkInPlaceEffectPlugin
 {
 public:
-    wwise_plugin_templateFX();
-    ~wwise_plugin_templateFX();
+    WwisePluginTemplateFX();
+    ~WwisePluginTemplateFX();
 
     /// Plug-in initialization.
     /// Prepares the plug-in for data processing, allocates memory and sets up the initial conditions.
@@ -62,9 +62,9 @@ public:
     AKRESULT TimeSkip(AkUInt32 in_uFrames) override;
 
 private:
-    wwise_plugin_templateFXParams* m_pParams;
+    WwisePluginTemplateFXParams* m_pParams;
     AK::IAkPluginMemAlloc* m_pAllocator;
     AK::IAkEffectPluginContext* m_pContext;
 };
 
-#endif // wwise_plugin_templateFX_H
+#endif // WwisePluginTemplateFX_H

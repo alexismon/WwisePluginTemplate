@@ -24,17 +24,9 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#ifndef wwise_plugin_templateConfig_H
-#define wwise_plugin_templateConfig_H
+#ifndef WwisePluginTemplateFXFactory_H
+#define WwisePluginTemplateFXFactory_H
 
-// NB: In order to properly change the CompanyID / PluginID, you must change them:
-// - In this file;
-// - In the xml file located in the WwisePlugin directory;
-// - In the xml file located in the FactoryAssets directory.
-namespace wwise_plugin_templateConfig
-{
-    static const unsigned short CompanyID = 64;
-    static const unsigned short PluginID = 16349;
-}
+AK_STATIC_LINK_PLUGIN(WwisePluginTemplateFX)
 
-#endif // wwise_plugin_templateConfig_H
+#endif // WwisePluginTemplateFXFactory_H

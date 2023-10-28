@@ -26,17 +26,17 @@ the specific language governing permissions and limitations under the License.
 
 #pragma once
 
-#include "../wwise_plugin_templatePlugin.h"
+#include "../WwisePluginTemplatePlugin.h"
 #include "../resource.h"
 #include <shellapi.h>
 #include <string>
 
-class wwise_plugin_templatePluginGUI final
+class WwisePluginTemplatePluginGUI final
 	: public AK::Wwise::Plugin::GUIWindows,
       public AK::Wwise::Plugin::Notifications::Monitor
 {
 public:
-	wwise_plugin_templatePluginGUI();
+	WwisePluginTemplatePluginGUI();
 
     //=== Frontend Methods ===
 

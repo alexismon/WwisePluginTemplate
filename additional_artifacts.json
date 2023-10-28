@@ -5,11 +5,11 @@
     "Authoring": [
         {
             // The files in the Help folder located at the root of the plug-in directory
-            // will be packaged so that they are installed in the Authoring/Help/wwise_plugin_template folder
+            // will be packaged so that they are installed in the Authoring/Help/WwisePluginTemplate folder
             // of a Wwise installation
-            "Authoring/Help/wwise_plugin_template": ["Help/*"],
+            "Authoring/Help/WwisePluginTemplate": ["Help/*"],
             // Similarly for the files in the FactoryAssets folder
-            "Authoring/Data/Factory Assets/wwise_plugin_template": ["FactoryAssets/*"]
+            "Authoring/Data/Factory Assets/WwisePluginTemplate": ["FactoryAssets/*"]
         }
     ]
 

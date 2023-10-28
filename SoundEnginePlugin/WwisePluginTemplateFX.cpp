@@ -24,55 +24,55 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#include "wwise_plugin_templateFX.h"
-#include "../wwise_plugin_templateConfig.h"
+#include "WwisePluginTemplateFX.h"
+#include "../WwisePluginTemplateConfig.h"
 
 #include <AK/AkWwiseSDKVersion.h>
 
-AK::IAkPlugin* Createwwise_plugin_templateFX(AK::IAkPluginMemAlloc* in_pAllocator)
+AK::IAkPlugin* CreateWwisePluginTemplateFX(AK::IAkPluginMemAlloc* in_pAllocator)
 {
-    return AK_PLUGIN_NEW(in_pAllocator, wwise_plugin_templateFX());
+    return AK_PLUGIN_NEW(in_pAllocator, WwisePluginTemplateFX());
 }
 
-AK::IAkPluginParam* Createwwise_plugin_templateFXParams(AK::IAkPluginMemAlloc* in_pAllocator)
+AK::IAkPluginParam* CreateWwisePluginTemplateFXParams(AK::IAkPluginMemAlloc* in_pAllocator)
 {
-    return AK_PLUGIN_NEW(in_pAllocator, wwise_plugin_templateFXParams());
+    return AK_PLUGIN_NEW(in_pAllocator, WwisePluginTemplateFXParams());
 }
 
-AK_IMPLEMENT_PLUGIN_FACTORY(wwise_plugin_templateFX, AkPluginTypeEffect, wwise_plugin_templateConfig::CompanyID, wwise_plugin_templateConfig::PluginID)
+AK_IMPLEMENT_PLUGIN_FACTORY(WwisePluginTemplateFX, AkPluginTypeEffect, WwisePluginTemplateConfig::CompanyID, WwisePluginTemplateConfig::PluginID)
 
-wwise_plugin_templateFX::wwise_plugin_templateFX()
+WwisePluginTemplateFX::WwisePluginTemplateFX()
     : m_pParams(nullptr)
     , m_pAllocator(nullptr)
     , m_pContext(nullptr)
 {
 }
 
-wwise_plugin_templateFX::~wwise_plugin_templateFX()
+WwisePluginTemplateFX::~WwisePluginTemplateFX()
 {
 }
 
-AKRESULT wwise_plugin_templateFX::Init(AK::IAkPluginMemAlloc* in_pAllocator, AK::IAkEffectPluginContext* in_pContext, AK::IAkPluginParam* in_pParams, AkAudioFormat& in_rFormat)
+AKRESULT WwisePluginTemplateFX::Init(AK::IAkPluginMemAlloc* in_pAllocator, AK::IAkEffectPluginContext* in_pContext, AK::IAkPluginParam* in_pParams, AkAudioFormat& in_rFormat)
 {
-    m_pParams = (wwise_plugin_templateFXParams*)in_pParams;
+    m_pParams = (WwisePluginTemplateFXParams*)in_pParams;
     m_pAllocator = in_pAllocator;
     m_pContext = in_pContext;
 
     return AK_Success;
 }
 
-AKRESULT wwise_plugin_templateFX::Term(AK::IAkPluginMemAlloc* in_pAllocator)
+AKRESULT WwisePluginTemplateFX::Term(AK::IAkPluginMemAlloc* in_pAllocator)
 {
     AK_PLUGIN_DELETE(in_pAllocator, this);
     return AK_Success;
 }
 
-AKRESULT wwise_plugin_templateFX::Reset()
+AKRESULT WwisePluginTemplateFX::Reset()
 {
     return AK_Success;
 }
 
-AKRESULT wwise_plugin_templateFX::GetPluginInfo(AkPluginInfo& out_rPluginInfo)
+AKRESULT WwisePluginTemplateFX::GetPluginInfo(AkPluginInfo& out_rPluginInfo)
 {
     out_rPluginInfo.eType = AkPluginTypeEffect;
     out_rPluginInfo.bIsInPlace = true;
@@ -83,7 +83,7 @@ AKRESULT wwise_plugin_templateFX::GetPluginInfo(AkPluginInfo& out_rPluginInfo)
 
 #define AK_LINTODB( __lin__ ) (log10f(__lin__) * 20.f)
 
-void wwise_plugin_templateFX::Execute(AkAudioBuffer* io_pBuffer)
+void WwisePluginTemplateFX::Execute(AkAudioBuffer* io_pBuffer)
 {
     const AkUInt32 uNumChannels = io_pBuffer->NumChannels();
 
@@ -134,7 +134,7 @@ void wwise_plugin_templateFX::Execute(AkAudioBuffer* io_pBuffer)
 #endif
 }
 
-AKRESULT wwise_plugin_templateFX::TimeSkip(AkUInt32 in_uFrames)
+AKRESULT WwisePluginTemplateFX::TimeSkip(AkUInt32 in_uFrames)
 {
     return AK_DataReady;
 }

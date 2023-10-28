@@ -2,16 +2,16 @@
 // for the documentation about the bundle_template.json format
 {
     // Unique identifier of this bundle. Id must be unique across all existing plugins and versions.
-    "id": "Alexis Mondragon Tayabas.wwise_plugin_template.${year}_${major}_${minor}_${build}",
+    "id": "Alexis Mondragon Tayabas.WwisePluginTemplate.${year}_${major}_${minor}_${build}",
 
     // Name displayed in the Wwise Launcher for this bundle
     "name": "Wwise Plugin Template",
     
     // Tag uniquely identifying the plug-in (format [0-9A-z_]+, 50 characters maximum)
-    "tag": "wwise_plugin_template",
+    "tag": "WwisePluginTemplate",
 
     // Description displayed in the Wwise Launcher for this bundle
-    "description": "WWise plugin tempalte with JUCE integration.",
+    "description": "Wwise eefect plugin with JUCE implementation",
 
     // Vendor name displayed in the Wwise Launcher for this bundle
     "vendor": "Alexis Mondragon Tayabas",

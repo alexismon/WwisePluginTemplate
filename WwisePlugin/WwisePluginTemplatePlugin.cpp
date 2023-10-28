@@ -24,18 +24,18 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#include "wwise_plugin_templatePlugin.h"
-#include "../SoundEnginePlugin/wwise_plugin_templateFXFactory.h"
+#include "WwisePluginTemplatePlugin.h"
+#include "../SoundEnginePlugin/WwisePluginTemplateFXFactory.h"
 
-wwise_plugin_templatePlugin::wwise_plugin_templatePlugin()
+WwisePluginTemplatePlugin::WwisePluginTemplatePlugin()
 {
 }
 
-wwise_plugin_templatePlugin::~wwise_plugin_templatePlugin()
+WwisePluginTemplatePlugin::~WwisePluginTemplatePlugin()
 {
 }
 
-bool wwise_plugin_templatePlugin::GetBankParameters(const GUID & in_guidPlatform, AK::Wwise::Plugin::DataWriter& in_dataWriter) const
+bool WwisePluginTemplatePlugin::GetBankParameters(const GUID & in_guidPlatform, AK::Wwise::Plugin::DataWriter& in_dataWriter) const
 {
     // Write bank data here
     in_dataWriter.WriteReal32(m_propertySet.GetReal32(in_guidPlatform, "Placeholder"));
@@ -44,13 +44,17 @@ bool wwise_plugin_templatePlugin::GetBankParameters(const GUID & in_guidPlatform
 }
 
 extern "C" { int __afxForceUSRDLL; }
-DEFINE_AUDIOPLUGIN_CONTAINER(wwise_plugin_template);											// Create a PluginContainer structure that contains the info for our plugin
-EXPORT_AUDIOPLUGIN_CONTAINER(wwise_plugin_template);											// This is a DLL, we want to have a standardized name
+
+DEFINE_AUDIOPLUGIN_CONTAINER(WwisePluginTemplate);											// Create a PluginContainer structure that contains the info for our plugin
+
+EXPORT_AUDIOPLUGIN_CONTAINER(WwisePluginTemplate);											// This is a DLL, we want to have a standardized name
+
 ADD_AUDIOPLUGIN_CLASS_TO_CONTAINER(                                             // Add our CLI class to the PluginContainer
-    wwise_plugin_template,        // Name of the plug-in container for this shared library
-    wwise_plugin_templatePlugin,  // Authoring plug-in class to add to the plug-in container
-    wwise_plugin_templateFX       // Corresponding Sound Engine plug-in class
+    WwisePluginTemplate,        // Name of the plug-in container for this shared library
+    WwisePluginTemplatePlugin,  // Authoring plug-in class to add to the plug-in container
+    WwisePluginTemplateFX       // Corresponding Sound Engine plug-in class
 );
+
 DEFINE_PLUGIN_REGISTER_HOOK
 
 DEFINEDUMMYASSERTHOOK;							// Placeholder assert hook for Wwise plug-ins using AKASSERT (cassert used by default)

@@ -30,6 +30,6 @@ for more information on factory assets
 -->
 <Manifest Name="Wwise Plugin Template" Type="Presets">
   <Dependencies>
-    <Plugin PluginName="Wwise Plugin Template" CompanyID="64" PluginID="16349" PluginType="3"/>
+    <Plugin PluginName="Wwise Plugin Template" CompanyID="64" PluginID="19441" PluginType="3"/>
   </Dependencies>
 </Manifest>

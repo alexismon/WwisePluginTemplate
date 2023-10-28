@@ -24,16 +24,16 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#include "wwise_plugin_templatePluginGUI.h"
+#include "WwisePluginTemplatePluginGUI.h"
 
-wwise_plugin_templatePluginGUI::wwise_plugin_templatePluginGUI()
+WwisePluginTemplatePluginGUI::WwisePluginTemplatePluginGUI()
 {
 }
 
 // Acquire the module instance from the Microsoft linker
 extern "C" IMAGE_DOS_HEADER __ImageBase;
 
-HINSTANCE wwise_plugin_templatePluginGUI::GetResourceHandle() const
+HINSTANCE WwisePluginTemplatePluginGUI::GetResourceHandle() const
 {
     return ((HINSTANCE)&__ImageBase);
 
@@ -63,7 +63,7 @@ AK_WWISE_PLUGIN_GUI_WINDOWS_END_POPULATE_TABLE()
 
 // Return true = Custom GUI
 // Return false = Generated GUI
-bool wwise_plugin_templatePluginGUI::GetDialog(
+bool WwisePluginTemplatePluginGUI::GetDialog(
     AK::Wwise::Plugin::eDialog in_eDialog,				///< The dialog type
     UINT & out_uiDialogID,			///< The returned resource ID of the dialog
     AK::Wwise::Plugin::PopulateTableItem *& out_pTable	///< The returned table of property-control bindings (can be NULL)
@@ -89,9 +89,47 @@ bool wwise_plugin_templatePluginGUI::GetDialog(
 }
 
 // Window message handler
+
+/*
+
+bool VoluminousPlugin::WindowProc (AK::Wwise::Plugin::eDialog dialog, HWND nativeHandle, UINT message, WPARAM wparam, LPARAM lparam, LRESULT& result)
+{
+    switch (message)
+    {
+    case WM_INITDIALOG:
+    {
+        container.reset(new AudioProcessorEditorContainer(*this));
+        container->setOpaque (true);
+        container->setVisible (true);
+        container->addToDesktop (0, nativeHandle);
+
+        const auto* editor = dynamic_cast<VoluminousAudioProcessorEditor*> (container->getEditor());
+
+        proxy.reset(new AudioProcessorPropertySetProxy(&m_propertySet, { editor->masterDial }));
+        addListener (proxy.get());
+        proxy->audioProcessorAttached (this);
+    }
+    break;
+    case WM_DESTROY:
+    {
+        removeListener (proxy.get());
+        proxy = nullptr;
+
+        container->removeFromDesktop();
+        container = nullptr;
+    }
+    break;
+    }
+
+    result = 0;
+    return false;
+}
+
+
+*/
 // See https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)
 // Standard window function allowing the user to intercept whatever message is of interest when implementing UI behavior.
-bool wwise_plugin_templatePluginGUI::WindowProc(
+bool WwisePluginTemplatePluginGUI::WindowProc(
     AK::Wwise::Plugin::eDialog in_eDialog,
     HWND in_hWnd,
     UINT in_message,
@@ -141,7 +179,7 @@ bool wwise_plugin_templatePluginGUI::WindowProc(
 
 // Function called when user clicked the help [?] button
 // See https://www.audiokinetic.com/library/edge/?source=SDK&id=plugin_dll.html#wwiseplugin_help
-bool wwise_plugin_templatePluginGUI::Help(
+bool WwisePluginTemplatePluginGUI::Help(
     HWND in_hWnd,					///< The handle of the dialog
     AK::Wwise::Plugin::eDialog in_eDialog,				///< The dialog type
     const char *in_szLanguageCode		///< The language code in ISO639-1
@@ -158,7 +196,7 @@ bool wwise_plugin_templatePluginGUI::Help(
     return false;
 }
 
-void wwise_plugin_templatePluginGUI::NotifyMonitorData(
+void WwisePluginTemplatePluginGUI::NotifyMonitorData(
     AkTimeMs in_iTimeStamp,
     const AK::Wwise::Plugin::MonitorData* in_pMonitorDataArray,
     unsigned int in_uMonitorDataArraySize,
@@ -189,7 +227,7 @@ void wwise_plugin_templatePluginGUI::NotifyMonitorData(
 }
 
 ADD_AUDIOPLUGIN_CLASS_TO_CONTAINER(
-    wwise_plugin_template,            // Name of the plug-in container for this shared library
-    wwise_plugin_templatePluginGUI,   // Authoring plug-in class to add to the plug-in container
-    wwise_plugin_templateFX           // Corresponding Sound Engine plug-in class
+    WwisePluginTemplate,            // Name of the plug-in container for this shared library
+    WwisePluginTemplatePluginGUI,   // Authoring plug-in class to add to the plug-in container
+    WwisePluginTemplateFX           // Corresponding Sound Engine plug-in class
 );

@@ -30,12 +30,12 @@ the specific language governing permissions and limitations under the License.
 
 /// See https://www.audiokinetic.com/library/edge/?source=SDK&id=plugin__dll.html
 /// for the documentation about Authoring plug-ins
-class wwise_plugin_templatePlugin final
+class WwisePluginTemplatePlugin final
     : public AK::Wwise::Plugin::AudioPlugin
 {
 public:
-    wwise_plugin_templatePlugin();
-    ~wwise_plugin_templatePlugin();
+    WwisePluginTemplatePlugin();
+    ~WwisePluginTemplatePlugin();
 
     /// This function is called by Wwise to obtain parameters that will be written to a bank.
     /// Because these can be changed at run-time, the parameter block should stay relatively small.
@@ -43,4 +43,4 @@ public:
     bool GetBankParameters(const GUID & in_guidPlatform, AK::Wwise::Plugin::DataWriter& in_dataWriter) const override;
 };
 
-DECLARE_AUDIOPLUGIN_CONTAINER(wwise_plugin_template);	// Exposes our PluginContainer structure that contains the info for our plugin
+DECLARE_AUDIOPLUGIN_CONTAINER(WwisePluginTemplate);	// Exposes our PluginContainer structure that contains the info for our plugin

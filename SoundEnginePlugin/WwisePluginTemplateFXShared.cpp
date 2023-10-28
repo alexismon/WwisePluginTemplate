@@ -24,9 +24,10 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#ifndef wwise_plugin_templateFXFactory_H
-#define wwise_plugin_templateFXFactory_H
+#include <AK/SoundEngine/Common/IAkPlugin.h>
+#include "WwisePluginTemplateFXFactory.h"
 
-AK_STATIC_LINK_PLUGIN(wwise_plugin_templateFX)
+#include <AK/Tools/Common/AkAssert.h>
 
-#endif // wwise_plugin_templateFXFactory_H
+DEFINEDUMMYASSERTHOOK;
+DEFINE_PLUGIN_REGISTER_HOOK;

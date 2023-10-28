@@ -29,8 +29,8 @@ if not _AK_PREMAKE then
 end
 
 local Plugin = {}
-Plugin.name = "wwise_plugin_template"
-Plugin.factoryheader = "../SoundEnginePlugin/wwise_plugin_templateFXFactory.h"
+Plugin.name = "WwisePluginTemplate"
+Plugin.factoryheader = "../SoundEnginePlugin/WwisePluginTemplateFXFactory.h"
 Plugin.sdk = {}
 Plugin.sdk.static = {}
 Plugin.sdk.shared = {}
@@ -42,14 +42,14 @@ Plugin.sdk.static.includedirs = -- https://github.com/premake/premake-core/wiki/
 }
 Plugin.sdk.static.files = -- https://github.com/premake/premake-core/wiki/files
 {
-    "*.cpp",
-    "*.h",
-    "*.hpp",
-    "*.c",
+    "**.cpp",
+    "**.h",
+    "**.hpp",
+    "**.c",
 }
 Plugin.sdk.static.excludes = -- https://github.com/premake/premake-core/wiki/removefiles
 {
-    "wwise_plugin_templateFXShared.cpp"
+    "WwisePluginTemplateFXShared.cpp"
 }
 Plugin.sdk.static.links = -- https://github.com/premake/premake-core/wiki/links
 {
@@ -68,8 +68,8 @@ Plugin.sdk.shared.includedirs =
 }
 Plugin.sdk.shared.files =
 {
-    "wwise_plugin_templateFXShared.cpp",
-    "wwise_plugin_templateFXFactory.h",
+    "WwisePluginTemplateFXShared.cpp",
+    "WwisePluginTemplateFXFactory.h",
 }
 Plugin.sdk.shared.excludes =
 {
@@ -96,12 +96,12 @@ Plugin.authoring.files =
     "**.h",
     "**.hpp",
     "**.c",
-    "wwise_plugin_template.def",
-    "wwise_plugin_template.xml",
-    "wwise_plugin_template.rc",
     
     "../JuceLibraryCode/include_juce_*.cpp",
     "../JuceLibraryCode/include_juce_*.h",
+    "WwisePluginTemplate.def",
+    "WwisePluginTemplate.xml",
+    "**.rc",
 }
 Plugin.authoring.excludes =
 {
@@ -116,10 +116,10 @@ Plugin.authoring.libdirs =
 }
 Plugin.authoring.defines =
 {
+    "JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED"
 }
 Plugin.authoring.custom = function()
     buildoptions { "/bigobj" }
 end
 
 return Plugin
-

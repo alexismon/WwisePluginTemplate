@@ -24,8 +24,8 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#ifndef wwise_plugin_templateFXParams_H
-#define wwise_plugin_templateFXParams_H
+#ifndef WwisePluginTemplateFXParams_H
+#define WwisePluginTemplateFXParams_H
 
 #include <AK/SoundEngine/Common/IAkPlugin.h>
 #include <AK/Plugin/PluginServices/AkFXParameterChangeHandler.h>
@@ -35,22 +35,22 @@ the specific language governing permissions and limitations under the License.
 static const AkPluginParamID PARAM_PLACEHOLDER_ID = 0;
 static const AkUInt32 NUM_PARAMS = 1;
 
-struct wwise_plugin_templateRTPCParams
+struct WwisePluginTemplateRTPCParams
 {
     AkReal32 fPlaceholder;
 };
 
-struct wwise_plugin_templateNonRTPCParams
+struct WwisePluginTemplateNonRTPCParams
 {
 };
 
-struct wwise_plugin_templateFXParams
+struct WwisePluginTemplateFXParams
     : public AK::IAkPluginParam
 {
-    wwise_plugin_templateFXParams();
-    wwise_plugin_templateFXParams(const wwise_plugin_templateFXParams& in_rParams);
+    WwisePluginTemplateFXParams();
+    WwisePluginTemplateFXParams(const WwisePluginTemplateFXParams& in_rParams);
 
-    ~wwise_plugin_templateFXParams();
+    ~WwisePluginTemplateFXParams();
 
     /// Create a duplicate of the parameter node instance in its current state.
     IAkPluginParam* Clone(AK::IAkPluginMemAlloc* in_pAllocator) override;
@@ -70,8 +70,8 @@ struct wwise_plugin_templateFXParams
 
     AK::AkFXParameterChangeHandler<NUM_PARAMS> m_paramChangeHandler;
 
-    wwise_plugin_templateRTPCParams RTPC;
-    wwise_plugin_templateNonRTPCParams NonRTPC;
+    WwisePluginTemplateRTPCParams RTPC;
+    WwisePluginTemplateNonRTPCParams NonRTPC;
 };
 
-#endif // wwise_plugin_templateFXParams_H
+#endif // WwisePluginTemplateFXParams_H

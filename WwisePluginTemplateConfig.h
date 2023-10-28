@@ -24,10 +24,17 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#include <AK/SoundEngine/Common/IAkPlugin.h>
-#include "wwise_plugin_templateFXFactory.h"
+#ifndef WwisePluginTemplateConfig_H
+#define WwisePluginTemplateConfig_H
 
-#include <AK/Tools/Common/AkAssert.h>
+// NB: In order to properly change the CompanyID / PluginID, you must change them:
+// - In this file;
+// - In the xml file located in the WwisePlugin directory;
+// - In the xml file located in the FactoryAssets directory.
+namespace WwisePluginTemplateConfig
+{
+    static const unsigned short CompanyID = 64;
+    static const unsigned short PluginID = 19441;
+}
 
-DEFINEDUMMYASSERTHOOK;
-DEFINE_PLUGIN_REGISTER_HOOK;
+#endif // WwisePluginTemplateConfig_H

@@ -24,31 +24,31 @@ the specific language governing permissions and limitations under the License.
   Copyright (c) 2023 Audiokinetic Inc.
 *******************************************************************************/
 
-#include "wwise_plugin_templateFXParams.h"
+#include "WwisePluginTemplateFXParams.h"
 
 #include <AK/Tools/Common/AkBankReadHelpers.h>
 
-wwise_plugin_templateFXParams::wwise_plugin_templateFXParams()
+WwisePluginTemplateFXParams::WwisePluginTemplateFXParams()
 {
 }
 
-wwise_plugin_templateFXParams::~wwise_plugin_templateFXParams()
+WwisePluginTemplateFXParams::~WwisePluginTemplateFXParams()
 {
 }
 
-wwise_plugin_templateFXParams::wwise_plugin_templateFXParams(const wwise_plugin_templateFXParams& in_rParams)
+WwisePluginTemplateFXParams::WwisePluginTemplateFXParams(const WwisePluginTemplateFXParams& in_rParams)
 {
     RTPC = in_rParams.RTPC;
     NonRTPC = in_rParams.NonRTPC;
     m_paramChangeHandler.SetAllParamChanges();
 }
 
-AK::IAkPluginParam* wwise_plugin_templateFXParams::Clone(AK::IAkPluginMemAlloc* in_pAllocator)
+AK::IAkPluginParam* WwisePluginTemplateFXParams::Clone(AK::IAkPluginMemAlloc* in_pAllocator)
 {
-    return AK_PLUGIN_NEW(in_pAllocator, wwise_plugin_templateFXParams(*this));
+    return AK_PLUGIN_NEW(in_pAllocator, WwisePluginTemplateFXParams(*this));
 }
 
-AKRESULT wwise_plugin_templateFXParams::Init(AK::IAkPluginMemAlloc* in_pAllocator, const void* in_pParamsBlock, AkUInt32 in_ulBlockSize)
+AKRESULT WwisePluginTemplateFXParams::Init(AK::IAkPluginMemAlloc* in_pAllocator, const void* in_pParamsBlock, AkUInt32 in_ulBlockSize)
 {
     if (in_ulBlockSize == 0)
     {
@@ -61,13 +61,13 @@ AKRESULT wwise_plugin_templateFXParams::Init(AK::IAkPluginMemAlloc* in_pAllocato
     return SetParamsBlock(in_pParamsBlock, in_ulBlockSize);
 }
 
-AKRESULT wwise_plugin_templateFXParams::Term(AK::IAkPluginMemAlloc* in_pAllocator)
+AKRESULT WwisePluginTemplateFXParams::Term(AK::IAkPluginMemAlloc* in_pAllocator)
 {
     AK_PLUGIN_DELETE(in_pAllocator, this);
     return AK_Success;
 }
 
-AKRESULT wwise_plugin_templateFXParams::SetParamsBlock(const void* in_pParamsBlock, AkUInt32 in_ulBlockSize)
+AKRESULT WwisePluginTemplateFXParams::SetParamsBlock(const void* in_pParamsBlock, AkUInt32 in_ulBlockSize)
 {
     AKRESULT eResult = AK_Success;
     AkUInt8* pParamsBlock = (AkUInt8*)in_pParamsBlock;
@@ -80,7 +80,7 @@ AKRESULT wwise_plugin_templateFXParams::SetParamsBlock(const void* in_pParamsBlo
     return eResult;
 }
 
-AKRESULT wwise_plugin_templateFXParams::SetParam(AkPluginParamID in_paramID, const void* in_pValue, AkUInt32 in_ulParamSize)
+AKRESULT WwisePluginTemplateFXParams::SetParam(AkPluginParamID in_paramID, const void* in_pValue, AkUInt32 in_ulParamSize)
 {
     AKRESULT eResult = AK_Success;
 

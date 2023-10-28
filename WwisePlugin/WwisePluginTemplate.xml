@@ -29,7 +29,7 @@ See https://www.audiokinetic.com/library/edge/?source=SDK&id=plugin__xml.html
 for the documentation about the plugin xml format
 -->
 <PluginModule>
-  <EffectPlugin Name="Wwise Plugin Template" CompanyID="64" PluginID="16349">
+  <EffectPlugin Name="Wwise Plugin Template" CompanyID="64" PluginID="19441">
     <PluginInfo>
       <PlatformSupport>
         <Platform Name="Any">
@@ -41,15 +41,15 @@ for the documentation about the plugin xml format
     </PluginInfo>
     <Properties>
       <!-- Add your property definitions here -->
-      <Property Name="Placeholder" Type="Real32" SupportRTPCType="Exclusive" DataMeaning="Decibels" DisplayName="Placeholder">
+      <Property Name="Placeholder" Type="Real32" SupportRTPCType="Exclusive" DisplayName="Placeholder">
         <UserInterface Step="0.1" Fine="0.001" Decimals="3" UIMax="10" />
         <DefaultValue>0.0</DefaultValue>
         <AudioEnginePropertyID>0</AudioEnginePropertyID>
         <Restrictions>
           <ValueRestriction>
             <Range Type="Real32">
-              <Min>-96.3</Min>
-              <Max>6</Max>
+              <Min>0.001</Min>
+              <Max>1000</Max>
             </Range>
           </ValueRestriction>
         </Restrictions>
