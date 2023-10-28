@@ -43,6 +43,7 @@ bool wwise_plugin_templatePlugin::GetBankParameters(const GUID & in_guidPlatform
     return true;
 }
 
+extern "C" { int __afxForceUSRDLL; }
 DEFINE_AUDIOPLUGIN_CONTAINER(wwise_plugin_template);											// Create a PluginContainer structure that contains the info for our plugin
 EXPORT_AUDIOPLUGIN_CONTAINER(wwise_plugin_template);											// This is a DLL, we want to have a standardized name
 ADD_AUDIOPLUGIN_CLASS_TO_CONTAINER(                                             // Add our CLI class to the PluginContainer

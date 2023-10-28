@@ -42,10 +42,10 @@ Plugin.sdk.static.includedirs = -- https://github.com/premake/premake-core/wiki/
 }
 Plugin.sdk.static.files = -- https://github.com/premake/premake-core/wiki/files
 {
-    "**.cpp",
-    "**.h",
-    "**.hpp",
-    "**.c",
+    "*.cpp",
+    "*.h",
+    "*.hpp",
+    "*.c",
 }
 Plugin.sdk.static.excludes = -- https://github.com/premake/premake-core/wiki/removefiles
 {
@@ -87,6 +87,8 @@ Plugin.sdk.shared.defines =
 -- AUTHORING PLUGIN SECTION
 Plugin.authoring.includedirs =
 {
+    "../JuceLibraryCode",
+    "../JUCE/modules",
 }
 Plugin.authoring.files =
 {
@@ -96,10 +98,15 @@ Plugin.authoring.files =
     "**.c",
     "wwise_plugin_template.def",
     "wwise_plugin_template.xml",
-    "**.rc",
+    "wwise_plugin_template.rc",
+    
+    "../JuceLibraryCode/include_juce_*.cpp",
+    "../JuceLibraryCode/include_juce_*.h",
 }
 Plugin.authoring.excludes =
 {
+    "../JuceLibraryCode/include_juce_audio_plugin_client_*.cpp",
+    "../JuceLibraryCode/include_juce_audio_plugin_client_*.h",
 }
 Plugin.authoring.links =
 {
@@ -110,5 +117,9 @@ Plugin.authoring.libdirs =
 Plugin.authoring.defines =
 {
 }
+Plugin.authoring.custom = function()
+    buildoptions { "/bigobj" }
+end
 
 return Plugin
+
