@@ -31,12 +31,17 @@ the specific language governing permissions and limitations under the License.
 #include <shellapi.h>
 #include <string>
 
+#include "../../JuceLibraryCode/JuceHeader.h"
+
+class MainComponent;
+
 class WwisePluginTemplatePluginGUI final
 	: public AK::Wwise::Plugin::GUIWindows,
       public AK::Wwise::Plugin::Notifications::Monitor
 {
 public:
 	WwisePluginTemplatePluginGUI();
+    ~WwisePluginTemplatePluginGUI();
 
     //=== Frontend Methods ===
 
@@ -77,4 +82,19 @@ public:
 
 private:
     HWND m_hwnd;
+
+    std::unique_ptr<MainComponent> mainComponent;
+};
+
+//==============================================================================
+class MainComponent : public juce::Component
+{
+public:
+    MainComponent();
+
+    //==============================================================================
+    void paint (juce::Graphics&) override;
+    void resized() override;
+private:
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

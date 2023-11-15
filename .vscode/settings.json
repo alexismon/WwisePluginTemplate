@@ -5,6 +5,8 @@
         "system_error": "cpp",
         "typeindex": "cpp",
         "xlocale": "cpp",
-        "*.mm": "cpp"
+        "*.mm": "cpp",
+        "memory": "cpp",
+        "iterator": "cpp"
     }
 }

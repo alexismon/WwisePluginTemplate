@@ -28,6 +28,12 @@ the specific language governing permissions and limitations under the License.
 
 WwisePluginTemplatePluginGUI::WwisePluginTemplatePluginGUI()
 {
+    juce::initialiseJuce_GUI();
+}
+
+WwisePluginTemplatePluginGUI::~WwisePluginTemplatePluginGUI()
+{
+    juce::shutdownJuce_GUI();
 }
 
 // Acquire the module instance from the Microsoft linker
@@ -41,25 +47,6 @@ HINSTANCE WwisePluginTemplatePluginGUI::GetResourceHandle() const
     //AFX_MANAGE_STATE( AfxGetStaticModuleState() );
     //return AfxGetStaticModuleState()->m_hCurrentResourceHandle;
 }
-
-// These macros generate a table named "WoaGainProperties" to pass to GetDialog
-// See https://www.audiokinetic.com/library/edge/?source=SDK&id=wwiseplugin_dialog_guide.html#wwiseplugin_dialog_guide_poptable
-//
-// The preprocessor turns the code below into:
-// AK::Wwise::PopulateTableItem WoaGainProperties = {
-//    {IDC_GAIN_SLIDER, L"Dummy"},
-//    {0, NULL}
-// };
-
-constexpr auto propertyKey = u8"Placeholder";
- 
-AK_WWISE_PLUGIN_GUI_WINDOWS_BEGIN_POPULATE_TABLE(PropertyTable)
-    AK_WWISE_PLUGIN_GUI_WINDOWS_POP_ITEM(
-      IDC_FADER,    /* < ID of the Win32 control in resource.h and WoaGain.rc */
-      propertyKey   /* < Property Name in WoaGain.xml */
-      )       
-
-AK_WWISE_PLUGIN_GUI_WINDOWS_END_POPULATE_TABLE()
 
 // Return true = Custom GUI
 // Return false = Generated GUI
@@ -76,7 +63,6 @@ bool WwisePluginTemplatePluginGUI::GetDialog(
         case AK::Wwise::Plugin::SettingsDialog:
         {
             out_uiDialogID = IDD_PLUGIN_PAGE;
-            out_pTable = PropertyTable;
             return true;
         }
         // Contents Editor: Only available to source plug-ins
@@ -89,44 +75,6 @@ bool WwisePluginTemplatePluginGUI::GetDialog(
 }
 
 // Window message handler
-
-/*
-
-bool VoluminousPlugin::WindowProc (AK::Wwise::Plugin::eDialog dialog, HWND nativeHandle, UINT message, WPARAM wparam, LPARAM lparam, LRESULT& result)
-{
-    switch (message)
-    {
-    case WM_INITDIALOG:
-    {
-        container.reset(new AudioProcessorEditorContainer(*this));
-        container->setOpaque (true);
-        container->setVisible (true);
-        container->addToDesktop (0, nativeHandle);
-
-        const auto* editor = dynamic_cast<VoluminousAudioProcessorEditor*> (container->getEditor());
-
-        proxy.reset(new AudioProcessorPropertySetProxy(&m_propertySet, { editor->masterDial }));
-        addListener (proxy.get());
-        proxy->audioProcessorAttached (this);
-    }
-    break;
-    case WM_DESTROY:
-    {
-        removeListener (proxy.get());
-        proxy = nullptr;
-
-        container->removeFromDesktop();
-        container = nullptr;
-    }
-    break;
-    }
-
-    result = 0;
-    return false;
-}
-
-
-*/
 // See https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)
 // Standard window function allowing the user to intercept whatever message is of interest when implementing UI behavior.
 bool WwisePluginTemplatePluginGUI::WindowProc(
@@ -150,7 +98,11 @@ bool WwisePluginTemplatePluginGUI::WindowProc(
         // initialization tasks that affect the appearance of the dialog box.
         case WM_INITDIALOG:
         {
-            m_hwnd = in_hWnd;
+          //  m_hwnd = in_hWnd;
+            mainComponent.reset(new MainComponent());
+            mainComponent->setOpaque (true);
+            mainComponent->setVisible (true);
+            mainComponent->addToDesktop (0, in_hWnd);
 
             // return TRUE to direct the system to set the keyboard focus to the control specified by wParam
             // return FALSE to prevent the system from setting the default keyboard focus
@@ -161,7 +113,10 @@ bool WwisePluginTemplatePluginGUI::WindowProc(
         // It is sent to the window procedure of the window being destroyed after the window is removed from the screen.
         case WM_DESTROY:
         {
-            m_hwnd = NULL;
+            //m_hwnd = NULL;
+
+            mainComponent->removeFromDesktop();
+            mainComponent = nullptr;
 
             // If an application processes this message, it should return zero.
             out_lResult = 0;
@@ -231,3 +186,22 @@ ADD_AUDIOPLUGIN_CLASS_TO_CONTAINER(
     WwisePluginTemplatePluginGUI,   // Authoring plug-in class to add to the plug-in container
     WwisePluginTemplateFX           // Corresponding Sound Engine plug-in class
 );
+
+//==============================================================================
+MainComponent::MainComponent()
+{
+    setSize (400, 300);
+}
+
+void MainComponent::paint (juce::Graphics& g)
+{
+    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.setColour (juce::Colours::white);
+    g.setFont (15.0f);
+    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+}
+
+void MainComponent::resized()
+{
+    
+}

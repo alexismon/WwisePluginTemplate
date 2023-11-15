@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by wwise_plugin_template.rc
+// Used by WwisePluginTemplate.rc
 //
 #define IDD_PLUGIN_PAGE                 107
 #define IDC_FADER                       1001

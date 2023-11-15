@@ -39,9 +39,24 @@ Plugin.authoring = {}
 -- SDK STATIC PLUGIN SECTION
 Plugin.sdk.static.includedirs = -- https://github.com/premake/premake-core/wiki/includedirs
 {
+    "../JuceLibraryCode",
+    "../JUCE/modules",
 }
 Plugin.sdk.static.files = -- https://github.com/premake/premake-core/wiki/files
 {
+    "../JuceLibraryCode/include_juce_core.cpp",
+    "../JuceLibraryCode/include_juce_core.h",
+    "../JuceLibraryCode/include_juce_audio_basics.cpp",
+    "../JuceLibraryCode/include_juce_audio_basics.h",
+    "../JuceLibraryCode/include_juce_audio_devices.cpp",
+    "../JuceLibraryCode/include_juce_audio_devices.h",
+    "../JuceLibraryCode/include_juce_audio_formats.cpp",
+    "../JuceLibraryCode/include_juce_audio_formats.h",
+    "../JuceLibraryCode/include_juce_audio_processors.cpp",
+    "../JuceLibraryCode/include_juce_audio_processors.h",
+    "../JuceLibraryCode/include_juce_audio_utils.cpp",
+    "../JuceLibraryCode/include_juce_audio_utils.h",
+
     "**.cpp",
     "**.h",
     "**.hpp",
@@ -60,7 +75,12 @@ Plugin.sdk.static.libdirs = -- https://github.com/premake/premake-core/wiki/libd
 }
 Plugin.sdk.static.defines = -- https://github.com/premake/premake-core/wiki/defines
 {
+    "JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED"
 }
+Plugin.sdk.static.custom = function()
+    buildoptions { "/GR", "/EHsc" }
+    cppdialect "C++17"
+end
 
 -- SDK SHARED PLUGIN SECTION
 Plugin.sdk.shared.includedirs =
@@ -91,22 +111,31 @@ Plugin.authoring.includedirs =
     "../JUCE/modules",
 }
 Plugin.authoring.files =
-{
+{ 
+    "../JuceLibraryCode/include_juce_core.cpp",
+    "../JuceLibraryCode/include_juce_core.h",
+    "../JuceLibraryCode/include_juce_data_structures.cpp",
+    "../JuceLibraryCode/include_juce_data_structure.h",
+    "../JuceLibraryCode/include_juce_events.cpp",
+    "../JuceLibraryCode/include_juce_events.h",
+    "../JuceLibraryCode/include_juce_graphics.cpp",
+    "../JuceLibraryCode/include_juce_graphics.h",
+    "../JuceLibraryCode/include_juce_gui_basics.cpp",
+    "../JuceLibraryCode/include_juce_gui_basics.h",
+    "../JuceLibraryCode/include_juce_gui_extra.cpp",
+    "../JuceLibraryCode/include_juce_gui_extra.h",
+
     "**.cpp",
     "**.h",
     "**.hpp",
     "**.c",
     
-    "../JuceLibraryCode/include_juce_*.cpp",
-    "../JuceLibraryCode/include_juce_*.h",
     "WwisePluginTemplate.def",
     "WwisePluginTemplate.xml",
     "**.rc",
 }
 Plugin.authoring.excludes =
 {
-    "../JuceLibraryCode/include_juce_audio_plugin_client_*.cpp",
-    "../JuceLibraryCode/include_juce_audio_plugin_client_*.h",
 }
 Plugin.authoring.links =
 {

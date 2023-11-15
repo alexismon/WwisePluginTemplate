@@ -30,6 +30,8 @@ the specific language governing permissions and limitations under the License.
 #include <AK/SoundEngine/Common/IAkPlugin.h>
 #include <AK/Plugin/PluginServices/AkFXParameterChangeHandler.h>
 
+#include "../JuceLibraryCode/JuceHeader.h"
+
 // Add parameters IDs here, those IDs should map to the AudioEnginePropertyID
 // attributes in the xml property definition.
 static const AkPluginParamID PARAM_PLACEHOLDER_ID = 0;
